@@ -22,13 +22,21 @@ server.post('/api/users', (req, res) => {
 
     Model.insert(body).then(user => {
         res.status(201).json(user);
-    });
+    })
+    .catch(err => {
+        res.status(500).json({ message: "There was an error while saving the user to the database", err: err.message })
+    })
 });
 
 //[GET] all users
 server.get('/api/users', (req, res) => {
-    Model.find().then(users => {
-        res.json(users)});
+    Model.find()
+    .then(users => {
+        res.json(users)
+    })
+    .catch(err => {
+        res.status(500).json({ message: "The users information could not be retrieved", err: err.message })
+    })
 });
 
 //[GET] user by id
@@ -40,7 +48,10 @@ server.get('/api/users/:id', (req, res) => {
         } else {
             res.json(user)
         }
-    });
+    })
+    .catch(err => {
+        res.status(500).json({ message: "The user information could not be retrieved", err: err.message })
+    })
 });
 
 //[DELETE]
@@ -52,7 +63,10 @@ server.delete('/api/users/:id', (req, res) => {
         } else {
             res.json(user)
         }
-    });
+    })
+    .catch(err => {
+        res.status(500).json({ message: "The user could not be removed", err: err.message })
+    })
 });
 
 //[PUT]
@@ -70,7 +84,10 @@ server.put('/api/users/:id', (req, res) => {
         } else {
             res.json(user)
         }
-    });
+    })
+    .catch(err => {
+        res.status(500).json({ message: "The user information could not be modified", err: err.message })
+    })
 });
 
 module.exports = server; // EXPORT YOUR SERVER instead of {}
